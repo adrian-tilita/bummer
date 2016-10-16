@@ -18,7 +18,7 @@ Licence : (At the moment undecided)
 import psutil
 
 
-def collectData(filters=None):
+def collectData(filters=None, config = None):
     '''
     Return system usage
 
