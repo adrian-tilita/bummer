@@ -26,14 +26,14 @@ class Monitor():
         '''
         self._availableMonitors[type(buildedMonitor).__name__] = buildedMonitor
 
-    def removeMonitor(self, monitorAliasName):
+    def removeMonitor(self, monitorAlisName):
         '''
         Removes a monitor from list
         Arguments:
             buildedMonitor  - A baseMonitor instance
         '''
-        if self._availableMonitors[monitorAliasName] is not None:
-            del self._availableMonitors[monitorAliasName]
+        if self._availableMonitors[monitorAlisName] is not None:
+            del self._availableMonitors[monitorAlisName]
 
     def start(self):
         if len(self._availableMonitors) == 0:
