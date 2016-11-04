@@ -1,5 +1,5 @@
 '''
-General Monitor
+Main monitor engine
 
 It should include a collection of monitors
 
@@ -8,10 +8,11 @@ Email   : adrian@tilita.ro
 Created : 2016-10
 Licence : (At the moment undecided)
 '''
-from BaseMonitor import BaseMonitor
+from abc import ABCMeta, abstractmethod
+import importlib
 
 
-class Monitor(BaseMonitor):
+class Monitor():
     '''
     Should contain all de builded monitors
     '''
@@ -34,12 +35,13 @@ class Monitor(BaseMonitor):
         if self._availableMonitors[monitorAlisName] is not None:
             del self._availableMonitors[monitorAlisName]
 
-    def collectData(self):
+    def start(self):
         if len(self._availableMonitors) == 0:
             raise Exception("No available monitors builded!")
 
         result = {}
         for monitorName in self._availableMonitors:
-            result[monitorName] = self._availableMonitors[monitorName].collectData()
+            currentMonitor = self._availableMonitors[monitorName]
+            result[monitorName] = currentMonitor.collectData()
 
         return result
