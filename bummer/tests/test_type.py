@@ -134,12 +134,15 @@ class TestConfigAware(unittest.TestCase):
             "A non-existing key should return None"
         )
 
-'''Dummy instances that implements BaseMonitor'''
+
 class ExtendedDummyMonitor(type.BaseMonitor):
+    '''Dummy instances that implements BaseMonitor'''
     def __init__(self):
         pass
 
+
 class ExtendedDummyMonitorExceptionTest(type.BaseMonitor):
+    '''Dummy instances that implements BaseMonitor'''
     def collectData(self):
         super(ExtendedDummyMonitorExceptionTest, self).collectData()
 

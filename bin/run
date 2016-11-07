@@ -1,0 +1,6 @@
+FILE=$1
+
+if [ ! -f $FILE ]
+then
+    echo "File $FILE exists."
+fi
