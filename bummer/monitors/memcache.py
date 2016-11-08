@@ -18,7 +18,7 @@ Created : 2016-10
 '''
 import telnetlib
 import re
-import monitor.type as MonitorType
+import core.type as MonitorType
 
 
 class MemcacheMonitor(
@@ -34,6 +34,10 @@ class MemcacheMonitor(
 
     '''
     Available filters keys
+    @todo - Create a dict, it will be not
+            be used as the first version
+            by building config with reference
+            to this "constants"
     '''
     FILTER_CURRENT_CONNECTIONS = 'curr_connections'
     FILTER_BYTES_WRITTEN = 'bytes_written'

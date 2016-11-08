@@ -1,14 +1,28 @@
+'''
+Monitor Builder
+
+It creates the Monitor Engine,
+add monitors builded based on the
+given config and add them to Monitor Engine
+and returns it
+
+Author  : Adrian Tilita
+Email   : adrian@tilita.ro
+Created : 2016-10
+Licence : (At the moment undecided)
+'''
 import importlib
-from monitor.engine import Monitor
-import monitor.type as MonitorType
+from core.engine import Monitor
+import core.type as MonitorType
 
 
 def build(config):
     '''
     Return monitor.engine.Monitor
     '''
-    monitor = Monitor()
-    for key in config:
+    monitorEngine = Monitor()
+    monitorsConfig = config['monitors']
+    for key in monitorsConfig:
         try:
             '''
             Dinamically load a monitor based on the requested
@@ -38,15 +52,15 @@ def build(config):
             further support decoration
             '''
             filters = None
-            if 'filters' in config[key]:
-                filters = config[key]['filters']
+            if 'filters' in monitorsConfig[key]:
+                filters = monitorsConfig[key]['filters']
             buildedMonitor.setFilters(filters)
         ''' if the class was builded, inject config '''
         if isinstance(buildedMonitor, MonitorType.ConfigAware) is True:
             configToSet = None
-            if 'config' in config[key]:
-                configToSet = config[key]['config']
+            if 'config' in monitorsConfig[key]:
+                configToSet = monitorsConfig[key]['config']
             buildedMonitor.setConfig(configToSet)
 
-        monitor.addMonitor(buildedMonitor)
-    return monitor
+        monitorEngine.addMonitor(buildedMonitor)
+    return monitorEngine

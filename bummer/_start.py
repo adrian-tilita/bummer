@@ -1,18 +1,22 @@
-from monitor.builder import build
+from core.builder import build
 
 config = {
-
-    "system": {
-        "filters": {
-            "net_io": True,
-            "memory": True,
-            "cpu": True
+    "monitors": {
+        "system": {
+            "filters": {
+                "net_io": True,
+                "memory": True,
+                "cpu": True
+            }
+        },
+        "memcache": {
+            "config": {
+                "hostname": '127.0.0.1',
+                "port": 11211
+            }
         }
     }
 }
 
 monitor = build(config)
-it = 0
-while it < 1:
-    print(monitor.start())
-    it += 1
+monitor.start()

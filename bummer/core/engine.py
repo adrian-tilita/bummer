@@ -17,6 +17,8 @@ class Monitor():
     Should contain all de builded monitors
     '''
     _availableMonitors = {}
+    _availableNotifiers = {}
+    started = False
 
     def addMonitor(self, buildedMonitor):
         '''
@@ -35,13 +37,27 @@ class Monitor():
         if self._availableMonitors[monitorAliasName] is not None:
             del self._availableMonitors[monitorAliasName]
 
+    def addNotifier(self, notifier):
+        '''
+        Add a notifier to the engine's list
+        Arguments:
+            notifier  - A BaseNotifier instance
+        '''
+        self._availableNotifiers[type(notifier).__name__] = notifier
+
+    def pushNotification(self, message, identifier = None):
+        print (str(identifier) + "<--->: " + str(message))
+
     def start(self):
         if len(self._availableMonitors) == 0:
             raise Exception("No available monitors builded!")
+        self.started = True
 
-        result = {}
-        for monitorName in self._availableMonitors:
-            currentMonitor = self._availableMonitors[monitorName]
-            result[monitorName] = currentMonitor.collectData()
+        while self.started is True:
+            for monitorName in self._availableMonitors:
+                currentMonitor = self._availableMonitors[monitorName]
+                self.pushNotification(currentMonitor.collectData(), monitorName)
 
-        return result
+    def stop(self):
+        self.started = False
+        

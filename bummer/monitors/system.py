@@ -14,7 +14,7 @@ Email   : adrian@tilita.ro
 Created : 2016-10
 '''
 import psutil
-import monitor.type as MonitorType
+import core.type as MonitorType
 
 
 class SystemMonitor(MonitorType.BaseMonitor, MonitorType.FilterAware):

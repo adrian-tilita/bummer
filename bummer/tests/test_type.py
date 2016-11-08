@@ -1,4 +1,4 @@
-from monitor import type
+from core import type
 import unittest
 
 
