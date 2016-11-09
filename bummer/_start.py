@@ -1,4 +1,5 @@
 from core.builder import build
+import time
 
 config = {
     "monitors": {
@@ -20,3 +21,9 @@ config = {
 
 monitor = build(config)
 monitor.start()
+time.sleep(2)
+monitor.stop()
+time.sleep(10)
+monitor.start()
+time.sleep(10)
+monitor.stop()

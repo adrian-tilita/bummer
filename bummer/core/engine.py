@@ -10,6 +10,8 @@ Licence : (At the moment undecided)
 '''
 from abc import ABCMeta, abstractmethod
 import importlib
+import threading
+import syslog
 
 
 class Monitor():
@@ -46,18 +48,33 @@ class Monitor():
         self._availableNotifiers[type(notifier).__name__] = notifier
 
     def pushNotification(self, message, identifier = None):
-        print (str(identifier) + "<--->: " + str(message))
+        ''' Send collected data to available notifiers '''
+        if len(self._availableNotifiers) == 0:
+            print "Collected data"# (str(identifier) + "<--->: " + str(message))
+            return
+        for notifier in self._availableNotifiers:
+            self._availableNotifiers[notifier].pushNotification(message, identifier)
 
     def start(self):
+        ''' Start monitors and notify with collected data '''
         if len(self._availableMonitors) == 0:
             raise Exception("No available monitors builded!")
         self.started = True
+        ''' Start decoupled from the current thread '''
+        thread = threading.Thread(target=self._collectData)
+        thread.start()
+        syslog.syslog('Monitor start request caught')
+        return True
 
+    def _collectData(self):
+        ''' Collect data from monitor and forward it to the notifiers '''
         while self.started is True:
             for monitorName in self._availableMonitors:
                 currentMonitor = self._availableMonitors[monitorName]
-                self.pushNotification(currentMonitor.collectData(), monitorName)
-
+                self.pushNotification(currentMonitor.collectData(), monitorName)        
+        
     def stop(self):
+        ''' Stop monitoring '''
+        syslog.syslog('Monitor stop request caught')
         self.started = False
         
