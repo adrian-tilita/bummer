@@ -47,13 +47,16 @@ class Monitor():
         '''
         self._availableNotifiers[type(notifier).__name__] = notifier
 
-    def pushNotification(self, message, identifier = None):
+    def pushNotification(self, message, identifier=None):
         ''' Send collected data to available notifiers '''
         if len(self._availableNotifiers) == 0:
-            print "Collected data"# (str(identifier) + "<--->: " + str(message))
+            print (str(identifier) + "<--->: " + str(message))
             return
         for notifier in self._availableNotifiers:
-            self._availableNotifiers[notifier].pushNotification(message, identifier)
+            self._availableNotifiers[notifier].pushNotification(
+                message,
+                identifier
+            )
 
     def start(self):
         ''' Start monitors and notify with collected data '''
@@ -71,10 +74,12 @@ class Monitor():
         while self.started is True:
             for monitorName in self._availableMonitors:
                 currentMonitor = self._availableMonitors[monitorName]
-                self.pushNotification(currentMonitor.collectData(), monitorName)        
-        
+                self.pushNotification(
+                    currentMonitor.collectData(),
+                    monitorName
+                )
+
     def stop(self):
         ''' Stop monitoring '''
         syslog.syslog('Monitor stop request caught')
         self.started = False
-        

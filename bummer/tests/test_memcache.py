@@ -11,7 +11,7 @@ import mock
 class TestMemcacheMonitor(unittest.TestCase):
     '''
     The MemcacheMonitor
-    @todo - 
+    @todo - Complete the test
     '''
     expectedWriteArguments = None
     expectedReadResponse = None
